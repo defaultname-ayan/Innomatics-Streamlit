@@ -1,159 +1,206 @@
-Resume Relevance Check System
-An AI-powered automated resume relevance evaluation system built with Streamlit that analyzes resumes against job descriptions and provides detailed scoring, feedback, and recommendations.
+# 📄 Resume Relevance Check System
 
-Features
-Core Capabilities
-AI-Powered Analysis: Uses Google Gemini AI for intelligent job description parsing and feedback generation
+[![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/)  
+[![Streamlit](https://img.shields.io/badge/Streamlit-1.28%2B-ff69b4.svg)](https://streamlit.io/)
 
-Multi-Format Support: Handles PDF, DOCX, and text file formats for both resumes and job descriptions
+An **AI-powered automated resume evaluation system** that analyzes candidate resumes against job descriptions using advanced machine learning techniques.  
+Built with **Streamlit** for the web interface and powered by **Google Gemini AI** for intelligent analysis.
 
-Comprehensive Scoring: Combines hard skill matching (40%) and semantic similarity (60%) for accurate relevance scores
+---
 
-Interactive Dashboard: Multi-tab Streamlit interface with results visualization, heatmaps, and evidence explorer
+## 🚀 Features
 
-Advanced Features
-Evidence Explorer: Sentence-level matching between job descriptions and resumes using semantic similarity
+- **AI-Powered Analysis** – Gemini integration for intelligent JD parsing & feedback  
+- **Multi-Format Support** – PDF, DOCX, and TXT for both resumes & JDs  
+- **Hybrid Scoring** – Combines hard skill matching (40%) + semantic similarity (60%)  
+- **Interactive Dashboard** – Five specialized tabs for detailed evaluation  
+- **Evidence Explorer** – Sentence-level JD ↔ Resume matching  
+- **Performance Calibration** – Threshold tuning & validation tools  
+- **Database Persistence** – SQLite storage for history & analytics  
 
-Skill Database: Comprehensive skill extraction covering programming languages, web technologies, data science, cloud, and specialized skills
+---
 
-Fallback Systems: Robust regex-based parsing when AI services are unavailable
+## 📋 Requirements
 
-Performance Calibration: Built-in system for threshold tuning and model validation
+### System
+- Python **3.8+**
+- RAM: **4GB+** (8GB recommended)
+- Storage: **1GB free space**
+- Internet: Required for Gemini API & model downloads  
 
-Architecture
-Core Components
-Component	Description	Key Features
-Resume Parser	Extracts structured data from resumes	Multi-format support, skill detection, contact extraction 
-Job Matcher	AI-powered matching engine	Gemini integration, BM25 scoring, semantic similarity 
-Streamlit App	Interactive web interface	Multi-tab dashboard, real-time evaluation, data persistence 
-Database Layer	SQLite-based storage	Evaluation history, performance tracking 
-Scoring Algorithm
-The system uses a hybrid scoring approach:
-
-Hard Match Score (40%): Exact and fuzzy skill matching using TF-IDF and BM25
-
-Semantic Score (60%): Context-aware similarity using sentence transformers
-
-Verdict Classification: High (≥75), Medium (≥50), Low (<50)
-
-Installation
-Prerequisites
-Python 3.8 or higher
-
-Google Gemini API key (optional, fallback methods available)
-
-Setup Steps
-Clone and navigate to the project directory:
-
-bash
-git clone <repository-url>
-cd resume-relevance-system
-Install dependencies:
-
-bash
-pip install -r requirements.txt
-Configure environment variables (create .env file):
-
-text
-GEMINI_API_KEY=your_gemini_api_key_here
-Run the application:
-
-bash
-streamlit run app.py
-Usage
-Basic Workflow
-Upload Job Description:
-
-Upload JD file (TXT, PDF, DOCX) or paste text directly
-
-System automatically extracts required skills, experience, and education requirements
-
-Upload Resumes:
-
-Select multiple resume files (PDF, DOCX supported)
-
-Batch processing for up to 20 resumes simultaneously
-
-Run Evaluation:
-
-Click "Run Evaluation" to process all resumes
-
-View results across multiple interactive tabs
-
-Dashboard Tabs
-Tab	Purpose	Features
-Results	Overview and rankings	Sortable grid, quick charts, candidate selection 
-Detailed	In-depth analysis	Score breakdowns, skill gaps, actionable feedback 
-Heatmap	Visual comparison	Interactive JD×Resume score visualization 
-Evidence	Sentence-level matching	Semantic similarity between JD and resume sections 
-Calibration	Performance tuning	Threshold adjustment, confusion matrix analysis 
-Configuration
-Key Settings
-Scoring Weights: Hard match (40%) vs Semantic (60%) - adjustable in config.py
-
-Performance Thresholds: High (75+), Medium (50-74), Low (<50)
-
-File Limits: Maximum 10MB per file, 20 resumes per batch
-
-API Configuration
-The system works with or without API keys:
-
-With Gemini API: Enhanced JD parsing and intelligent feedback generation
-
-Without API: Regex-based fallback with comprehensive skill detection
-
-Dependencies
-Core Requirements
-text
+### Dependencies
+```text
 streamlit>=1.28.0
 PyMuPDF>=1.23.0
 python-docx>=0.8.11
 google-generativeai>=0.6.0
 scikit-learn>=1.3.0
+pandas>=2.0.0
+numpy>=1.24.0
 sentence-transformers>=2.2.2
-rank-bm25>=0.2.2
-rapidfuzz>=3.6.1
-SQLAlchemy>=2.0.29
-UI Components
-text
-streamlit-aggrid>=1.0.5
-streamlit-echarts>=0.4.0
-plotly>=5.17.0
-matplotlib>=3.7.0
-Database Schema
-The system uses SQLite with the following evaluation model :
+🛠️ Installation
+1. Clone Repository
+bash
+Copy code
+git clone https://github.com/your-username/resume-relevance-system.git
+cd resume-relevance-system
+2. Create Virtual Environment
+bash
+Copy code
+python -m venv venv
 
-Evaluation ID: Primary key
+# Activate
+# Windows
+venv\Scripts\activate
+# macOS/Linux
+source venv/bin/activate
+3. Install Dependencies
+bash
+Copy code
+pip install -r requirements.txt
+4. Configure Environment
+Create a .env file in the project root:
 
-Job Details: Title, filename
+env
+Copy code
+GEMINI_API_KEY=your_gemini_api_key_here
+MAX_FILE_SIZE_MB=10
+CACHE_TTL_SECONDS=3600
+Works without API keys (fallback methods), but Gemini enhances accuracy.
 
-Scores: Overall, hard match, semantic scores
+5. Directory Setup
+System auto-creates:
 
-Skill Analysis: Required matches, missing skills (JSON)
+kotlin
+Copy code
+uploads/   → Temporary file storage
+data/      → SQLite DB & processed data
+🚀 Quick Start
+Run the app:
 
-Feedback: AI-generated recommendations
+bash
+Copy code
+streamlit run app.py
+Open browser → http://localhost:8501
 
-Timestamps: Creation tracking
+Workflow
+Upload Job Description (TXT, PDF, DOCX or paste text)
 
-Technical Highlights
-AI Integration
-Google Gemini 1.5 Flash: For intelligent job description parsing and feedback generation
+Upload Resumes (up to 20, PDF/DOCX)
 
-Sentence Transformers: Using all-MiniLM-L6-v2 for semantic similarity
+Run evaluation → View results in interactive tabs
 
-Fallback Systems: Comprehensive regex patterns ensure functionality without AI
+📊 Dashboard
+Tab	Purpose	Features
+📋 Results	Candidate rankings & summary	Interactive grid, sorting, quick insights
+📈 Detailed	Individual analysis	Score breakdowns, gaps, AI feedback
+🗺️ Heatmap	Visual score comparison	JD×Resume heat visualization
+🔎 Evidence	Sentence-level matching	Semantic similarity explorer
+📐 Calibration	Performance tuning	Thresholds, confusion matrix
 
-Performance Optimizations
-Caching: LRU cache for parsed job descriptions
+⚖️ Scoring
+Hard Match (40%) → TF-IDF + BM25 exact skills
 
-Lazy Loading: Models loaded on-demand to reduce startup time
+Semantic Match (60%) → Sentence Transformers
 
-Batch Processing: Efficient handling of multiple resumes
+Final Verdict
 
-Error Handling
-Graceful Degradation: System works even when AI services fail
+High: ≥ 75
 
-File Format Support: Robust parsing with error recovery
+Medium: 50–74
 
-Database Resilience: Proper session management and error handling
+Low: < 50
 
+python
+Copy code
+HARD_MATCH_WEIGHT = 0.4
+SEMANTIC_MATCH_WEIGHT = 0.6
+HIGH_THRESHOLD = 75
+MEDIUM_THRESHOLD = 50
+MAX_RESUMES_PER_BATCH = 20
+MAX_FILE_SIZE_MB = 10
+🏗️ Project Structure
+bash
+Copy code
+resume-relevance-system/
+├── app.py             # Main Streamlit app
+├── resume_parser.py   # Resume parsing
+├── job_matcher.py     # Matching engine
+├── config.py          # Config settings
+├── db.py              # Database connection
+├── models.py          # SQLAlchemy schemas
+├── requirements.txt   # Dependencies
+├── .env               # Environment variables
+├── uploads/           # Temporary files
+├── data/              # SQLite DB
+└── README.md
+🔧 Advanced Features
+Skill Database – Programming, web, data science, cloud, DBs
+
+Optimization – Caching, lazy loading, batch processing
+
+Error Handling – Works offline, robust parsing, clear messages
+
+🎯 Use Cases
+HR: Automated screening
+
+Agencies: Bulk evaluation
+
+Job Portals: JD–Resume matching
+
+Career Services: Resume feedback
+
+Research: HR analytics & bias detection
+
+🔍 Troubleshooting
+ModuleNotFoundError →
+
+bash
+Copy code
+pip install -r requirements.txt
+Slow performance → Keep files <10MB, smaller batches
+
+DB errors →
+
+bash
+Copy code
+chmod 755 data/
+Tips
+
+Use PDFs <5MB
+
+Process 5–10 resumes per batch
+
+Add Gemini API key for best accuracy
+
+🤝 Contributing
+Fork repo
+
+Create branch → git checkout -b feature/XYZ
+
+Commit → git commit -m 'Add XYZ'
+
+Push → git push origin feature/XYZ
+
+Open PR
+
+📄 License
+Licensed under MIT. See LICENSE.
+
+🙏 Acknowledgments
+Innomatics Research Labs – Research & development
+
+Google Gemini – AI-powered analysis
+
+Streamlit Community – Web framework
+
+Hugging Face – Sentence transformers
+
+scikit-learn – ML algorithms
+
+📞 Support
+Open an issue on GitHub
+
+Contact: [Your Info]
+
+Docs: [Link to detailed docs]
